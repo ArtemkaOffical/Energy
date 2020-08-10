@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29509.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Energy", "Energy\Energy.csproj", "{0F019750-DC09-4BC3-B9B6-C21DB52082F0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5153F7BE-1590-4B13-B30D-6F3BF58AACC3} = {5153F7BE-1590-4B13-B30D-6F3BF58AACC3}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Energy.CustomAttributes", "..\Energy.CustomAttributes\Energy.CustomAttributes\Energy.CustomAttributes.csproj", "{5153F7BE-1590-4B13-B30D-6F3BF58AACC3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0F019750-DC09-4BC3-B9B6-C21DB52082F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F019750-DC09-4BC3-B9B6-C21DB52082F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F019750-DC09-4BC3-B9B6-C21DB52082F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F019750-DC09-4BC3-B9B6-C21DB52082F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5153F7BE-1590-4B13-B30D-6F3BF58AACC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5153F7BE-1590-4B13-B30D-6F3BF58AACC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5153F7BE-1590-4B13-B30D-6F3BF58AACC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5153F7BE-1590-4B13-B30D-6F3BF58AACC3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FD33C4E8-0CDC-4304-BBCF-A79F14369B9E}
+	EndGlobalSection
+EndGlobal
