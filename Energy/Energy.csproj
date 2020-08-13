@@ -51,12 +51,8 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>E:\СЕРВЕРА RUST\server133\Devblog 133\Server\RustDedicated_Data\Managed\Assembly-CSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="Energy.CustomAttributes, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Energy.CustomAttributes\Energy.CustomAttributes\bin\Debug\Energy.CustomAttributes.dll</HintPath>
+    <Reference Include="Energy.Plugin">
+      <HintPath>..\..\Energy.CustomAttributes\Energy.CustomAttributes\bin\Release\Energy.Plugin.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

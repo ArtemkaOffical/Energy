@@ -1,5 +1,4 @@
 ﻿using Energy.Extensions;
-using Energy.LoadPlugins;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,7 +7,7 @@ using System.Reflection;
 using Energy.Extensions.Additions;
 using System.Threading;
 
-namespace Energy
+namespace Energy.Plugin
 {
     class PluginManager
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using Energy.LoadPlugins;
+using Energy.Plugin;
 using System.Collections.Generic;
 using Energy.Extensions;
 namespace Energy
