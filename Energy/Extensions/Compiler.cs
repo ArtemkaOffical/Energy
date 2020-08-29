@@ -12,10 +12,10 @@ namespace Energy.Plugin
 {
     class Compiler
     {
-        CSharpCodeProvider codeProvider = new CSharpCodeProvider();
-        List<string> NeededFiles = new List<string>()
+        private CSharpCodeProvider _codeProvider = new CSharpCodeProvider();
+        private List<string> _neededFiles = new List<string>()
         {
-            "Energy.CustomAttributes.dll",
+            "Energy.Plugin.dll",
             "System.dll",
             "System.Xml.dll",
             "System.Data.dll",
@@ -32,8 +32,8 @@ namespace Energy.Plugin
                 IncludeDebugInformation = false,
                 GenerateInMemory = true,
             };
-            foreach (var item in NeededFiles) {param.ReferencedAssemblies.Add(item);}
-            var DllFile = codeProvider.CompileAssemblyFromFile(param, path);
+            foreach (var item in _neededFiles) {param.ReferencedAssemblies.Add(item);}
+            var DllFile = _codeProvider.CompileAssemblyFromFile(param, path);
             if (DllFile.Errors.HasErrors)
             {
                 foreach (var error in DllFile.Errors) { Console.WriteLine(error); }

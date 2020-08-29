@@ -4,9 +4,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.29509.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Energy", "Energy\Energy.csproj", "{0F019750-DC09-4BC3-B9B6-C21DB52082F0}"
-	ProjectSection(ProjectDependencies) = postProject
-		{5153F7BE-1590-4B13-B30D-6F3BF58AACC3} = {5153F7BE-1590-4B13-B30D-6F3BF58AACC3}
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Energy.CustomAttributes", "..\Energy.CustomAttributes\Energy.CustomAttributes\Energy.CustomAttributes.csproj", "{5153F7BE-1590-4B13-B30D-6F3BF58AACC3}"
 EndProject

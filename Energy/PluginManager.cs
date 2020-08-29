@@ -11,24 +11,25 @@ namespace Energy.Plugin
 {
     class PluginManager
     {
-        private string PluginPath = $"{Environment.CurrentDirectory}" + "\\Plugins\\";
-        private BindingFlags Flags = BindingFlags.Instance| BindingFlags.GetProperty | BindingFlags.SetProperty| BindingFlags.GetField| BindingFlags.SetField| BindingFlags.NonPublic| BindingFlags.Public;
-        private Compiler compiler = new Compiler();
-        private List<string> FilesFromDirectory = new List<string>();
-        private static Dictionary<string, Plugin> Plugins = new Dictionary<string, Plugin>();
-        private static Dictionary<Plugin, List<string>> PluginHooks = new Dictionary<Plugin, List<string>>();
+        private string _pluginPath = $"{Environment.CurrentDirectory}" + "\\Plugins\\";
+        private BindingFlags _flags = BindingFlags.Instance| BindingFlags.GetProperty | BindingFlags.SetProperty| BindingFlags.GetField| BindingFlags.SetField| BindingFlags.NonPublic| BindingFlags.Public;
+        private Compiler _compiler = new Compiler();
+        private List<string> _filesFromDirectory = new List<string>();
+        private static Dictionary<string, Plugin> _plugins = new Dictionary<string, Plugin>();
+        private static Dictionary<Plugin, List<string>> _pluginHooks = new Dictionary<Plugin, List<string>>();
+        private FileSystemWatcher _fsw;
         public static Plugin GetPlugin(string name)
         {     
-            Plugins.TryGetValue(name, out Plugin result);
+            _plugins.TryGetValue(name, out Plugin result);
             return result;
         }
         public void ReloadPlugin(string name) 
         {
            PluginUnload(name);
-           AddPlugin(PluginPath + $"{name}.cs");
+           AddPlugin(_pluginPath + $"{name}.cs");
            PluginLoad(name);
         }
-        public IEnumerable<Plugin> GetAllPlugins(List<Plugin> list)=> list = Plugins.Values.ToList();
+        public IEnumerable<Plugin> GetAllPlugins(List<Plugin> list)=> list = _plugins.Values.ToList();
         
         public void ReloadAllPlugins() 
         {
@@ -39,28 +40,24 @@ namespace Energy.Plugin
         }
         public void Init()
         {
-            
+            _fsw = new FileSystemWatcher(_pluginPath,"*.cs");
+            _fsw.EnableRaisingEvents = true;
             if (!Directory.Exists($"{Environment.CurrentDirectory}" + "\\Plugins"))
             {
                 Directory.CreateDirectory($"{Environment.CurrentDirectory}" + "\\Plugins");
             }
-            GetFilesFromDirectory(PluginPath);
-            foreach (var item in FilesFromDirectory)
+            GetFilesFromDirectory(_pluginPath);
+            foreach (var item in _filesFromDirectory)
             {
-                AddPlugin(item);
-                
-            }
-            foreach (var item in GetAllPlugins(new List<Plugin>()))
-            {
-                PluginHooks.Add(item,GetAllHooksFromThePlugin(item.Name));
-            }
+                AddPlugin(item);             
+            }   
         }
         private List<string> GetAllHooksFromThePlugin(string name) 
         {
             List<string> hooks = new List<string>();
-            for (int i = 0; i < GetPlugin(name).GetType().GetMethods(Flags).Length; i++)
+            for (int i = 0; i < GetPlugin(name).GetType().GetMethods(_flags).Length; i++)
             {
-                hooks.Add(GetPlugin(name).GetType().GetMethods(Flags)[i].Name);                          
+                hooks.Add(GetPlugin(name).GetType().GetMethods(_flags)[i].Name);                          
             }
             return hooks;
         }
@@ -72,13 +69,13 @@ namespace Energy.Plugin
                 Console.WriteLine($"This plugin was not found");
                 return;
             }
-            RemovePlugin(PluginPath + $"{name}.cs");
+            RemovePlugin(_pluginPath + $"{name}.cs");
             Console.WriteLine($"Plugin {plugin.Name} has been unloaded");
         }
         public static object Call(string Name, params object[] args)
         {
-            Plugin plugin =  PluginHooks.FirstOrDefault(z => z.Value.Find(y => y == Name) == Name).Key;
-            if (PluginHooks.Any((x) => x.Key == plugin))
+            Plugin plugin =  _pluginHooks.FirstOrDefault(z => z.Value.Find(y => y == Name) == Name).Key;
+            if (_pluginHooks.Any((x) => x.Key == plugin))
             {
                 return GetPlugin(plugin.Name).CallHook(Name, args);
             }
@@ -97,21 +94,36 @@ namespace Energy.Plugin
         }
         private void GetFilesFromDirectory(string Directory) 
         {
+            _fsw.Created += new FileSystemEventHandler( Fsw_Created);
+            _fsw.Deleted += new FileSystemEventHandler( Fsw_Deleted);
             foreach (var item in new DirectoryInfo(Directory).GetFiles("*"))
             {
                 if (item.Extension == ".cs") 
                 {
-                    if(!FilesFromDirectory.Contains(item.FullName))
-                        FilesFromDirectory.Add(item.FullName);                   
+                    if(!_filesFromDirectory.Contains(item.FullName))
+                        _filesFromDirectory.Add(item.FullName);                   
                 }
             }
-        }       
+        }
+
+        private void Fsw_Deleted(object sender, FileSystemEventArgs e)
+        {
+            PluginUnload(e.FullPath.GetFileNameFromPath());
+        }
+        private void Fsw_Created(object sender, FileSystemEventArgs e)
+        {
+            AddPlugin(e.FullPath);
+          
+        }
         private bool AddPlugin(string path) 
         {
-            if (!Plugins.ContainsKey(path.GetFileNameFromPath()))
+            
+            if (!_plugins.ContainsKey(path.GetFileNameFromPath()))
             {
-                Plugins.Add(path.GetFileNameFromPath(), compiler.CompilePlugin(path));
-                if (!FilesFromDirectory.Contains(path)) FilesFromDirectory.Add(path);
+                _plugins.Add(path.GetFileNameFromPath(), _compiler.CompilePlugin(path));
+                _pluginHooks.Add(GetPlugin(path.GetFileNameFromPath()), GetAllHooksFromThePlugin(path.GetFileNameFromPath()));
+                if (!_filesFromDirectory.Contains(path)) _filesFromDirectory.Add(path);
+                PluginLoad(path.GetFileNameFromPath());
                 return true;
             }
             else
@@ -122,15 +134,15 @@ namespace Energy.Plugin
         }
         private bool RemovePlugin(string path)
         {
-            if (Plugins.ContainsKey(path.GetFileNameFromPath()))
+            if (_plugins.ContainsKey(path.GetFileNameFromPath()))
             {
-                Plugins.Remove(path.GetFileNameFromPath());
-                FilesFromDirectory.Remove(PluginPath + $"{ path.GetFileNameFromPath()}.cs");
+                _pluginHooks.Remove(GetPlugin(path.GetFileNameFromPath()));
+                _plugins.Remove(path.GetFileNameFromPath());
+                _filesFromDirectory.Remove(_pluginPath + $"{ path.GetFileNameFromPath()}.cs");
+                
                 return true;
             }
             return false;
         }
-        
-    }
-    
+    } 
 }
