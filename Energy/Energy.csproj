@@ -56,7 +56,7 @@
   <ItemGroup>
     <Reference Include="Energy.Plugin, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Energy.CustomAttributes\Energy.CustomAttributes\bin\Release\Energy.Plugin.dll</HintPath>
+      <HintPath>..\..\Energy.CustomAttributes\Energy.CustomAttributes\bin\Debug\Energy.Plugin.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

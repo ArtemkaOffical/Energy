@@ -18,23 +18,12 @@ namespace Energy
             //}
 
             //Manager.ReloadPlugin("Class1");
-            Print("super");
-            Print(123);
+          
 
             //Manager.ReloadAllPlugins();
             Console.ReadLine();
         }
 
 
-        public static  void Print(string text)
-        {
-            PluginManager.Call("Printed", new object[] {text});
-            Console.WriteLine(text);
-        }
-        public static void Print(int text)
-        {
-            PluginManager.Call("Printedd", new object[] { text });
-            Console.WriteLine(text);
-        }
     }
 }

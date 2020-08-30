@@ -16,6 +16,14 @@ namespace Energy.Plugin
         private List<string> _neededFiles = new List<string>()
         {
             "Energy.Plugin.dll",
+            "VkNet.dll",
+            "Flurl.dll",
+            "Flurl.Http.dll",
+            "HtmlAgilityPack.dll",
+            "Microsoft.Extensions.DependencyInjection.dll",
+            "Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+            @"C:\Windows\assembly\GAC_MSIL\Microsoft.Office.Interop.Excel\15.0.0.0__71e9bce111e9429c\Microsoft.Office.Interop.Excel.dll",
+            "Newtonsoft.Json.dll",
             "System.dll",
             "System.Xml.dll",
             "System.Data.dll",
